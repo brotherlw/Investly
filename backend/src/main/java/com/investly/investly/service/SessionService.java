@@ -30,6 +30,10 @@ public class SessionService {
         return sessionRepository.save(session);
     }
 
+    public Session getSession(String sessionId) {
+        return sessionRepository.findById(sessionId).orElse(null);
+    }
+
     public boolean sessionExists(String sessionId) {
         return sessionRepository.existsById(sessionId);
     }
