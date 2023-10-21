@@ -12,11 +12,11 @@ public class GameChallenge {
     private String id;
 
     @ManyToOne
-    @JoinColumn(name = "challengedId")
+    @JoinColumn
     private User challenged;
 
     @ManyToOne
-    @JoinColumn(name = "challengerId")
+    @JoinColumn
     private User challenger;
     private GameChallengeState state;
 }

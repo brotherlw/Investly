@@ -69,7 +69,7 @@ public class GameChallengeController {
 
         gameChallenge.setId(id);
 
-        var storedChallenge = gameChallengeService.answerChallenge(gameChallenge);
+        var storedChallenge = gameChallengeService.answerChallenge(gameChallenge, session.getUser());
 
         if (storedChallenge == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

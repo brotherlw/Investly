@@ -6,7 +6,6 @@ import com.investly.investly.model.User;
 import com.investly.investly.model.enums.GameChallengeState;
 import com.investly.investly.repository.GameChallengeRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,8 +17,6 @@ public class GameChallengeService {
 
     public GameChallenge createChallenge(CreateGameChallengeDto createGameChallengeDto, User challenger) {
         var gameChallenge = new GameChallenge();
-
-        BeanUtils.copyProperties(createGameChallengeDto, gameChallenge);
 
         var challenged = new User();
         challenged.setId(createGameChallengeDto.getChallengedId());
@@ -46,7 +43,7 @@ public class GameChallengeService {
         return gameChallengeRepository.findGameChallengesByChallengedOrChallenger(user, user);
     }
 
-    public GameChallenge answerChallenge(GameChallenge gameChallenge) {
+    public GameChallenge answerChallenge(GameChallenge gameChallenge, User user) {
         var savedChallenge = getChallenge(gameChallenge.getId());
 
         if (savedChallenge.getState() != GameChallengeState.PENDING) {
@@ -54,6 +51,10 @@ public class GameChallengeService {
         }
 
         savedChallenge.setState(gameChallenge.getState());
+
+        if (!user.getId().equals(gameChallenge.getChallenged().getId())) {
+            return null;
+        }
 
         return gameChallengeRepository.save(savedChallenge);
     }
