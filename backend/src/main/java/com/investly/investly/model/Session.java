@@ -9,7 +9,7 @@ public class Session {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "userId", referencedColumnName = "id")
     private User user;
 }
