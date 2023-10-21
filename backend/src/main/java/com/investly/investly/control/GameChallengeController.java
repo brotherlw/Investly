@@ -2,6 +2,7 @@ package com.investly.investly.control;
 
 import com.investly.investly.model.CreateGameChallengeDto;
 import com.investly.investly.model.GameChallenge;
+import com.investly.investly.model.UpdateGameChallengeDto;
 import com.investly.investly.model.enums.GameChallengeState;
 import com.investly.investly.service.GameChallengeService;
 import com.investly.investly.service.SessionService;
@@ -56,20 +57,18 @@ public class GameChallengeController {
 
     @PatchMapping("{id}")
     public ResponseEntity<GameChallenge> answerChallenge(@RequestHeader String authorization, @PathVariable String id,
-                                                         @RequestBody GameChallenge gameChallenge) {
+                                                         @RequestBody UpdateGameChallengeDto updateGameChallengeDto) {
         var session = sessionService.getSession(authorization);
 
         if (session == null) {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
 
-        if (gameChallenge.getState() == null || gameChallenge.getState() == GameChallengeState.PENDING) {
+        if (updateGameChallengeDto.getState() == null || updateGameChallengeDto.getState() == GameChallengeState.PENDING) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-        gameChallenge.setId(id);
-
-        var storedChallenge = gameChallengeService.answerChallenge(gameChallenge, session.getUser());
+        var storedChallenge = gameChallengeService.answerChallenge(id, updateGameChallengeDto, session.getUser());
 
         if (storedChallenge == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

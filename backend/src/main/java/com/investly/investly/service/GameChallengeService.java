@@ -2,6 +2,7 @@ package com.investly.investly.service;
 
 import com.investly.investly.model.CreateGameChallengeDto;
 import com.investly.investly.model.GameChallenge;
+import com.investly.investly.model.UpdateGameChallengeDto;
 import com.investly.investly.model.User;
 import com.investly.investly.model.enums.GameChallengeState;
 import com.investly.investly.repository.GameChallengeRepository;
@@ -31,10 +32,6 @@ public class GameChallengeService {
         return gameChallengeRepository.save(gameChallenge);
     }
 
-    public boolean challengeExists(String challengeId) {
-        return gameChallengeRepository.existsById(challengeId);
-    }
-
     public GameChallenge getChallenge(String challengeId) {
         return gameChallengeRepository.findById(challengeId).orElse(null);
     }
@@ -43,8 +40,8 @@ public class GameChallengeService {
         return gameChallengeRepository.findGameChallengesByChallengedOrChallenger(user, user);
     }
 
-    public GameChallenge answerChallenge(GameChallenge gameChallenge, User user) {
-        var savedChallenge = getChallenge(gameChallenge.getId());
+    public GameChallenge answerChallenge(String id, UpdateGameChallengeDto gameChallenge, User user) {
+        var savedChallenge = getChallenge(id);
 
         if (savedChallenge.getState() != GameChallengeState.PENDING) {
             return null;

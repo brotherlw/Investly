@@ -1,22 +1,20 @@
 package com.investly.investly.model;
 
-import com.investly.investly.model.enums.FriendRequestState;
 import jakarta.persistence.*;
 import lombok.Data;
 
-@Entity(name = "friend-requests")
+@Entity(name = "friend-connections")
 @Data
-public class FriendRequest {
+public class FriendConnection {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
 
     @ManyToOne
     @JoinColumn
-    private User receiver;
+    private User party1;
 
     @ManyToOne
     @JoinColumn
-    private User requester;
-    private FriendRequestState state;
+    private User party2;
 }
