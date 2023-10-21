@@ -10,6 +10,6 @@ public class Session {
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
     @ManyToOne
-    @JoinColumn(name = "userId")
+    @JoinColumn
     private User user;
 }

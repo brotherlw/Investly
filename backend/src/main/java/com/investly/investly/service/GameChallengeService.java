@@ -52,10 +52,16 @@ public class GameChallengeService {
 
         savedChallenge.setState(gameChallenge.getState());
 
-        if (!user.getId().equals(gameChallenge.getChallenged().getId())) {
+        if (!user.getId().equals(savedChallenge.getChallenged().getId())) {
             return null;
         }
 
         return gameChallengeRepository.save(savedChallenge);
+    }
+
+    public void redeemChallenge(GameChallenge gameChallenge) {
+        gameChallenge.setState(GameChallengeState.REDEEMED);
+
+        gameChallengeRepository.save(gameChallenge);
     }
 }
