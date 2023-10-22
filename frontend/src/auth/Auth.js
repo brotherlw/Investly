@@ -20,7 +20,7 @@ export const AuthProvider = ({ children }) => {
 
             if (response.ok) {
                 setSession(await response.json());
-                navigate("/dashboard");
+                navigate("/");
             } else {
                 return false
             }
@@ -32,7 +32,7 @@ export const AuthProvider = ({ children }) => {
     // call this function to sign out logged in user
     const logout = () => {
         setSession(null);
-        navigate("/", { replace: true });
+        navigate("/login", { replace: true });
     };
 
     const value = useMemo(
